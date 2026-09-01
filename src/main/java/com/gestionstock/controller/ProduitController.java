@@ -126,4 +126,8 @@ public class ProduitController {
             chargerDonnees();
         }
     }
+    @FXML
+    private void ouvrirDialogueAjout() {
+        System.out.println("Bouton Ajouter cliqué - fonctionnalité à venir");
+    }
 }

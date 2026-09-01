@@ -1,7 +1,4 @@
---- ==============================================================================================
---SCRIPT D'INITIALISATION DE LA BASE DE DONNEES GESTIONSTOCKIAGE
---SGBD: MYSQL
---- ==============================================================================================
+
 
 CREATE DATABASE IF NOT EXISTS gestion_stock_iage
     CHARACTER SET utf8mb4
@@ -48,9 +45,7 @@ CREATE TABLE IF NOT EXISTS mouvements(
     FOREIGN KEY (produit_id) REFERENCES produits(id)
 );
 
---- ==============================================================================================
---DONNEES DE TEST
---- ==============================================================================================
+-- DONNEES DE TEST
 
 INSERT INTO categories(nom, description) VALUES
  ('Informatique', 'Materiel et accessoires informatiques'),
