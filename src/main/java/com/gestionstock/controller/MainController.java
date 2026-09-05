@@ -23,6 +23,7 @@ public class MainController {
         contenuPrincipale.getChildren().add(new Label("Dashboard"));
     }
 
+
     @FXML
     private void afficherProduits() {
         chargerVue("/com/gestionstock/produits.fxml");

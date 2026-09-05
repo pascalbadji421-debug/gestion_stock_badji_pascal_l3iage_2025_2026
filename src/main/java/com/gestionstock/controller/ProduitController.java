@@ -9,13 +9,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,15 +55,6 @@ public class ProduitController {
     }
 
     private void configurerColones() {
-          /*
-            - PropertyValueFactory: indique à la colonne d'afficher la valeur retournée par getNom() sur chaque objet Produit
-            - ObservableList: C'est une liste spéciale qui permet de mettre à jour automatiquement TableView lorsque
-            des éléments sont ajoutés ou supprimés.
-            - FXCollections.observableArrayList: crée une ObservableList à partir d'objets
-
-            A RETENIR: PropertyValueFactory<>("nom") appelle automatiquement la méthode getNom()
-            de la classe Produit. Il faut donc que les getters soient définis dans la classe modèle
-         */
         // Lier chaque colonne à un attribut de la classe Produit
         colonneNom.setCellValueFactory( new PropertyValueFactory<>("nom"));
         colonnePrix.setCellValueFactory( new PropertyValueFactory<>("prix"));
@@ -95,7 +92,6 @@ public class ProduitController {
 
         ObservableList<Produit> resultats = listeProduits.filtered(produit ->
                 (produit.getNom() != null && produit.getNom().toLowerCase().contains(rechercheMinuscule))
-                        //|| (produit.getCategorie() != null && produit.getCategorie_nom().toLowerCase().contains(rechercheMinuscule))
         );
 
         tableProduits.setItems(resultats);
@@ -126,8 +122,27 @@ public class ProduitController {
             chargerDonnees();
         }
     }
+
     @FXML
     private void ouvrirDialogueAjout() {
-        System.out.println("Bouton Ajouter cliqué - fonctionnalité à venir");
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/gestionstock/AddProduitDialog.fxml")
+            );
+            Parent racine = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un produit");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(racine));
+            stage.showAndWait();
+
+            AddProduitDialogController controller = loader.getController();
+            if (controller.isProduitAjoute()) {
+                chargerDonnees();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
